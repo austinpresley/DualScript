@@ -1,0 +1,180 @@
+/* local.css – Ultimate Beautification with Transparent Background */
+
+/* 1) BODY tweaks */
+body {
+    font-family:
+       'Inter', -apple-system, BlinkMacSystemFont,
+       "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background: transparent;
+    color: #F0F0F0;
+    margin: 0;
+    padding: 40px;
+    /* Remove full‐screen centering if you’d rather stack at the top: */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Avoid forcing 100vh (Inspector is a fixed window) */
+    min-height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* 2) WRAPPER: “frosted‐glass” container */
+.sdpi-wrapper {
+    background-color: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 0 2px rgba(0, 0, 0, 0.05);
+    /* Limit the width so you don’t get horizontal scrollbars */
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: fadeInScale 0.8s ease-out forwards;
+}
+
+/* Shrink padding on very narrow windows to avoid overflow */
+@media (max-width: 500px) {
+    .sdpi-wrapper {
+        padding: 20px;
+        border-radius: 15px;
+    }
+}
+
+/* Keyframe animation for initial load */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 3) EACH ITEM’s spacing */
+.sdpi-item {
+    margin-bottom: 30px; /* slightly less than 35px to fit well on narrow windows */
+}
+
+/* 4) LABELS */
+.sdpi-item-label {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #FFFFFF;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 5) TEXTAREAS */
+.sdpi-item-value {
+    width: 100%;          /* ensure it never overflows its parent */
+    padding: 16px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #EFEFEF;
+    font-size: 1.08em;
+    resize: vertical;
+    min-height: 120px;    /* a bit shorter so it fits nicer on small windows */
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-out, box-shadow 0.3s ease-out, background-color 0.3s ease-out;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.sdpi-item-value::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+.sdpi-item-value:focus {
+    outline: none;
+    border-color: rgba(135, 206, 250, 0.7);
+    box-shadow:
+        0 0 0 4px rgba(135, 206, 250, 0.3),
+        inset 0 3px 6px rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* 6) DETAILS & SUMMARY */
+.sdpi-details {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 15px;
+    padding: 20px 25px;
+    color: #F5F5F5;
+    box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease-out;
+}
+
+/* Make sure the <summary> is block‐level so ::before absolute positioning works */
+.sdpi-details-summary {
+    display: inline-flex;   /* or “block” / “inline-block” */
+    position: relative;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.1em;
+    color: #FFFFFF;
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding-left: 25px;     /* space for our custom arrow */
+}
+
+.sdpi-details-summary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 10px;
+    border-color: transparent transparent transparent #87CEFA;
+    transition: transform 0.3s ease-out;
+    transform-origin: center;
+}
+
+/* Rotate arrow when <details> is open */
+details[open] > .sdpi-details-summary::before {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.sdpi-details-summary:hover {
+    color: #ADD8E6;
+    transform: translateX(3px);
+}
+
+/* Hide the default marker ▸  */
+.sdpi-details-summary::-webkit-details-marker {
+    display: none;
+}
+
+.sdpi-details-content {
+    margin-top: 20px;
+    line-height: 1.75;
+    color: #DDDDDD;
+    font-size: 0.98em;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.4s ease-out, max-height 0.4s ease-out;
+}
+
+/* When details is open, reveal the content */
+details[open] .sdpi-details-content {
+    opacity: 1;
+    max-height: 250px;  /* adjust if your paragraph is taller */
+}

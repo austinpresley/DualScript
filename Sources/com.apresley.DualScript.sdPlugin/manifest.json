@@ -1,0 +1,37 @@
+{
+	"Name": "DualScript",
+	"Version": "1.0.2.0",
+	"Author": "APresley",
+	"Actions": [
+		{
+			"Name": "DualScript",
+			"UUID": "com.apresley.dualscript.action",
+			"Icon": "OSAScriptIcon",
+			"Tooltip": "Run separate AppleScripts on Key-Down and Key-Up",
+			"PropertyInspectorPath": "index.html",
+			"States": [
+				{
+					"Image": "OSAScriptIcon",
+					"TitleAlignment": "bottom",
+					"FontSize": 12
+				}
+			]
+		}
+	],
+	"Category": "DualScript",
+	"CategoryIcon": "OSAScriptIcon",
+	"CodePath": "OSAScript",
+	"Description": "DualScript: run one AppleScript on Key-Down and another on Key-Up",
+	"Icon": "OSAScriptIcon",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.4"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "10.11"
+		}
+	],
+	"UUID": "com.apresley.dualscript"
+}

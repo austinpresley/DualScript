@@ -1,0 +1,171 @@
+/* local.css – Updated with purple accents, sharper corners, and faster animations */
+
+/* 1) BODY tweaks */
+body {
+    font-family:
+       'Inter', -apple-system, BlinkMacSystemFont,
+       "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background: transparent;
+    color: #F0F0F0;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* 2) WRAPPER: “frosted‐glass” container */
+.sdpi-wrapper {
+    background-color: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 40px;                   /* Slightly less padding */
+    border-radius: 8px;              /* Sharper corners */
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 0 2px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: fadeInScale 0.3s ease-out forwards; /* Faster animation */
+}
+
+@media (max-width: 500px) {
+    .sdpi-wrapper {
+        padding: 20px;
+        border-radius: 6px;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.98) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 3) EACH ITEM’s spacing */
+.sdpi-item {
+    margin-bottom: 25px;
+}
+
+/* 4) LABELS */
+.sdpi-item-label {
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 5) TEXTAREAS */
+.sdpi-item-value {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #EFEFEF;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 120px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sdpi-item-value::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
+
+.sdpi-item-value:focus {
+    outline: none;
+    border-color: rgba(153, 0, 255, 0.7); /* Purple accent */
+    box-shadow:
+        0 0 0 3px rgba(153, 0, 255, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* 6) DETAILS & SUMMARY */
+.sdpi-details {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 8px;
+    padding: 18px 20px;
+    color: #F5F5F5;
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease-out;
+}
+
+.sdpi-details-summary {
+    display: inline-flex;
+    position: relative;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.08em;
+    color: #FFFFFF;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding-left: 20px;
+}
+
+.sdpi-details-summary::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 10px;
+    border-color: transparent transparent transparent #9900FF; /* Purple arrow */
+    transition: transform 0.2s ease-out;
+    transform-origin: center;
+}
+
+details[open] > .sdpi-details-summary::before {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.sdpi-details-summary:hover {
+    color: #D580FF; /* Lighter purple on hover */
+    transform: translateX(2px);
+}
+
+.sdpi-details-summary::-webkit-details-marker {
+    display: none;
+}
+
+.sdpi-details-content {
+    margin-top: 15px;
+    line-height: 1.6;
+    color: #DDDDDD;
+    font-size: 0.98em;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease-out, max-height 0.3s ease-out;
+}
+
+details[open] .sdpi-details-content {
+    opacity: 1;
+    max-height: 200px;
+}

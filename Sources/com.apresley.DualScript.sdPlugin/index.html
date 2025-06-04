@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>OSA Script (action)</title>
+
+    <!-- Elgato’s built-in styles -->
+    <link rel="stylesheet" href="sdpi.css" />
+    <!-- Your custom overrides / additions -->
+    <link rel="stylesheet" href="local.css" />
+
+    <!-- Built-in Stream Deck JS helper (do not remove) -->
+    <script src="common.js"></script>
+    <!-- Your inspector logic (saves to scriptDown / scriptUp) -->
+    <script src="inspector.js"></script>
+</head>
+
+<body>
+    <div class="sdpi-wrapper">
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">AppleScript (Key Down)</div>
+            <textarea
+              class="sdpi-item-value"
+              id="scriptDown"
+              rows="8"
+              placeholder="Key Down Applescript Here"></textarea>
+        </div>
+
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">AppleScript (Key Up)</div>
+            <textarea
+              class="sdpi-item-value"
+              id="scriptUp"
+              rows="8"
+              placeholder="Key Up Applescript Here"></textarea>
+        </div>
+
+        <div class="sdpi-item">
+            <details class="sdpi-details">
+                <summary class="sdpi-details-summary">Need just one script?</summary>
+                <p class="sdpi-details-content">
+                Simply fill in the script for the event you want.
+                </p>
+            </details>
+        </div>
+    </div>
+</body>
+</html>
