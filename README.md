@@ -1,39 +1,37 @@
-# streamdeck-osascript
+# DualScript
 
-![](screenshot.png)
+![DualScript Screenshot](screenshot.png)
 
 ## Description
 
-`Run OSA Script` is a plugin that allows you to run arbitrary OSA language scripts (AppleScript and JavaScript for automation). It's based on the plugin `streamdeck-applescript` but this one has been rewritten from the scratch to update it to the Stream Deck SDK v2.
+**DualScript** is a macOS-only Stream Deck plugin that lets you run separate AppleScript snippets on key-press (Key Down) and key-release (Key Up). It builds on the original `streamdeck-osascript` plugin, updated to SDK v2, and adds:
 
-## Features
+- Two distinct AppleScript text areas—one for Key Down and one for Key Up  
+- If you leave one field empty, DualScript will only run the other script on its event
 
-- code written in Objective-C
-- macOS only
-- executes AppleScript scripts
-- executes JXA (JavaScript for automation) scripts
+Use DualScript to trigger notifications, open applications, or perform any macOS automation directly from your Stream Deck key.
+
+---
 
 ## Installation
 
-In the Release folder, you can find the file `com.gabrielperales.osascript.streamDeckPlugin`. If you double-click this file on your machine, Stream Deck will install the plugin.
+1. **Download** the latest `com.apresley.dualscript.streamDeckPlugin` from the [Releases](https://github.com/austinpresley/DualScript/releases) page.  
+2. **Double-click** `com.apresley.dualscript.streamDeckPlugin`. Stream Deck will install DualScript and reload.  
+3. In the Stream Deck app’s sidebar under **Installed Plugins**, you’ll see **DualScript**. Drag it onto any key to assign.
 
-## Source code
+---
 
-The Sources folder contains the source code of the plugin.
+## Configuration (Property Inspector)
+
+With DualScript assigned to a key, click that key to open its Property Inspector. You’ll see two AppleScript fields:
+
+1. **AppleScript (Key Down)**  
+   Enter any valid AppleScript here to run when you press the key.
+
+2. **AppleScript (Key Up)**  
+   Enter any valid AppleScript here to run when you release the key.
+
+- If one field is left blank, DualScript will only run the other script on its event.  
+- Scripts execute immediately when the event happens—no additional setup required.
 
 
-## Examples
-
-### Open VS Code
-
-```JavaScript
-var code = Application('Visual Studio Code');
-code.activate();
-```
-
-## Resources to learn AppleScript and JXA
-
-- [JXA-Cookbook](https://github.com/JXA-Cookbook/JXA-Cookbook)
-- [Automating macOS with JXA presentation](https://github.com/josh-/automating-macOS-with-JXA-presentation)
-- [Stackoverflow JXA](https://stackoverflow.com/questions/tagged/javascript-automation)
-- [Stackoverflow AppleScript](https://stackoverflow.com/questions/tagged/applescript)
