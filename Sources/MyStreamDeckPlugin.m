@@ -9,7 +9,7 @@
 #import "MyStreamDeckPlugin.h"
 #import <Foundation/Foundation.h>
 
-#pragma mark –– Helper to run a snippet of AppleScript
+#pragma mark –– Helpers
 
 /// Runs the given AppleScript source string via NSAppleScript.
 /// If source is empty or nil, does nothing.
@@ -28,6 +28,12 @@ static void RunOSAString(NSString *source) {
     }
 }
 
+/// Escapes backslashes and quotes so the string can be embedded in AppleScript.
+static NSString *DS_EscapeForAS(NSString *s) {
+    s = [s stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    s = [s stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    return s;
+}
 
 #pragma mark –– Plugin callbacks
 
@@ -35,7 +41,7 @@ static void RunOSAString(NSString *source) {
 
 - (instancetype)init {
     if ((self = [super init])) {
-        _visibleContexts = [NSMutableSet set];
+        _activeContextForDevice = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -80,8 +86,9 @@ static void RunOSAString(NSString *source) {
                  withPayload:(NSDictionary *)payload
                   forDevice:(NSString *)deviceID
 {
-    // Track that this context is now visible/front-most on the dial stack.
-    [self.visibleContexts addObject:context];
+    // Track that this context is front-most on this device.
+    self.activeContextForDevice[deviceID] = context;
+    [self notifyKMFrontMost:@"appear" context:context device:deviceID action:action];
 }
 
 // Called when the user removes this action’s button from the screen
@@ -91,12 +98,31 @@ static void RunOSAString(NSString *source) {
                    withPayload:(NSDictionary *)payload
                     forDevice:(NSString *)deviceID
 {
-    // Remove the context when it leaves the front of the stack.
-    [self.visibleContexts removeObject:context];
+    // Remove the context if it was front-most.
+    if ([self.activeContextForDevice[deviceID] isEqualToString:context]) {
+        [self.activeContextForDevice removeObjectForKey:deviceID];
+    }
+    [self notifyKMFrontMost:@"disappear" context:context device:deviceID action:action];
 }
 
-- (BOOL)isActiveOnDial:(NSString *)context {
-    return [self.visibleContexts containsObject:context];
+- (BOOL)isFrontMostContext:(NSString *)context onDevice:(NSString *)deviceID {
+    return [self.activeContextForDevice[deviceID] isEqualToString:context];
+}
+
+/// Notify Keyboard Maestro that this context became or left the front-most position.
+- (void)notifyKMFrontMost:(NSString *)event
+                  context:(NSString *)context
+                   device:(NSString *)deviceID
+                   action:(NSString *)action
+{
+    NSString *param = [NSString stringWithFormat:@"{\"event\":\"%@\",\"context\":\"%@\",\"device\":\"%@\",\"action\":\"%@\"}",
+                       event ?: @"", context ?: @"", deviceID ?: @"", action ?: @""];
+    param = DS_EscapeForAS(param);
+    NSString *src = [NSString stringWithFormat:
+                     @"tell application \"Keyboard Maestro Engine\" to do script \"DualScript FrontMost\" with parameter \"%@\"",
+                     param];
+    NSAppleScript *as = [[NSAppleScript alloc] initWithSource:src];
+    [as executeAndReturnError:nil];
 }
 
 // Encoder-related events
@@ -105,7 +131,7 @@ static void RunOSAString(NSString *source) {
                  withPayload:(NSDictionary *)payload
                   forDevice:(NSString *)deviceID
 {
-    if (![self isActiveOnDial:context]) return; // ignore if not front-most
+    if (![self isFrontMostContext:context onDevice:deviceID]) return; // ignore if not front-most
     // Handle rotation here if needed
 }
 
@@ -114,7 +140,7 @@ static void RunOSAString(NSString *source) {
                withPayload:(NSDictionary *)payload
                 forDevice:(NSString *)deviceID
 {
-    if (![self isActiveOnDial:context]) return;
+    if (![self isFrontMostContext:context onDevice:deviceID]) return;
     // Handle dial press here if needed
 }
 
@@ -123,7 +149,7 @@ static void RunOSAString(NSString *source) {
              withPayload:(NSDictionary *)payload
               forDevice:(NSString *)deviceID
 {
-    if (![self isActiveOnDial:context]) return;
+    if (![self isFrontMostContext:context onDevice:deviceID]) return;
     // Handle dial release here if needed
 }
 

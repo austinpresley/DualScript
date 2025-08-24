@@ -21,11 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MyStreamDeckPlugin : NSObject <ESDEventsProtocol>
 
 @property (weak) ESDConnectionManager *connectionManager;
-/// Set of contexts currently visible/active on a dial stack.
-@property (nonatomic, strong) NSMutableSet<NSString *> *visibleContexts;
+/// Maps a device ID to the context that is currently front-most on that device.
+@property (nonatomic, strong) NSMutableDictionary<NSString*, NSString*> *activeContextForDevice;
 
-/// Returns YES if the given context is currently front-most on the dial.
-- (BOOL)isActiveOnDial:(NSString *)context;
+/// Returns YES if the given context is the front-most action on the specified device.
+- (BOOL)isFrontMostContext:(NSString *)context onDevice:(NSString *)deviceID;
 
 - (void)keyDownForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
 - (void)keyUpForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
