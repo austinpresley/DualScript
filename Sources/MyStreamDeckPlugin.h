@@ -21,11 +21,21 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MyStreamDeckPlugin : NSObject <ESDEventsProtocol>
 
 @property (weak) ESDConnectionManager *connectionManager;
+/// Set of contexts currently visible/active on a dial stack.
+@property (nonatomic, strong) NSMutableSet<NSString *> *visibleContexts;
+
+/// Returns YES if the given context is currently front-most on the dial.
+- (BOOL)isActiveOnDial:(NSString *)context;
 
 - (void)keyDownForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
 - (void)keyUpForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
 - (void)willAppearForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
 - (void)willDisappearForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
+
+// Encoder-related events (Stream Deck+) – gated by isActiveOnDial.
+- (void)dialRotateForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
+- (void)dialDownForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
+- (void)dialUpForAction:(NSString *)action withContext:(id)context withPayload:(NSDictionary *)payload forDevice:(NSString *)deviceID;
 
 - (void)deviceDidConnect:(NSString *)deviceID withDeviceInfo:(NSDictionary *)deviceInfo;
 - (void)deviceDidDisconnect:(NSString *)deviceID;

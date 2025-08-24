@@ -33,6 +33,13 @@ static void RunOSAString(NSString *source) {
 
 @implementation MyStreamDeckPlugin
 
+- (instancetype)init {
+    if ((self = [super init])) {
+        _visibleContexts = [NSMutableSet set];
+    }
+    return self;
+}
+
 // Called when the Stream Deck app launches any monitored application.
 // (We don’t need to do anything here for OSA Script.)
 - (void)applicationDidLaunch:(NSString *)application
@@ -73,7 +80,8 @@ static void RunOSAString(NSString *source) {
                  withPayload:(NSDictionary *)payload
                   forDevice:(NSString *)deviceID
 {
-    // No-op
+    // Track that this context is now visible/front-most on the dial stack.
+    [self.visibleContexts addObject:context];
 }
 
 // Called when the user removes this action’s button from the screen
@@ -83,7 +91,40 @@ static void RunOSAString(NSString *source) {
                    withPayload:(NSDictionary *)payload
                     forDevice:(NSString *)deviceID
 {
-    // No-op
+    // Remove the context when it leaves the front of the stack.
+    [self.visibleContexts removeObject:context];
+}
+
+- (BOOL)isActiveOnDial:(NSString *)context {
+    return [self.visibleContexts containsObject:context];
+}
+
+// Encoder-related events
+- (void)dialRotateForAction:(NSString *)action
+                withContext:(NSString *)context
+                 withPayload:(NSDictionary *)payload
+                  forDevice:(NSString *)deviceID
+{
+    if (![self isActiveOnDial:context]) return; // ignore if not front-most
+    // Handle rotation here if needed
+}
+
+- (void)dialDownForAction:(NSString *)action
+              withContext:(NSString *)context
+               withPayload:(NSDictionary *)payload
+                forDevice:(NSString *)deviceID
+{
+    if (![self isActiveOnDial:context]) return;
+    // Handle dial press here if needed
+}
+
+- (void)dialUpForAction:(NSString *)action
+            withContext:(NSString *)context
+             withPayload:(NSDictionary *)payload
+              forDevice:(NSString *)deviceID
+{
+    if (![self isActiveOnDial:context]) return;
+    // Handle dial release here if needed
 }
 
 
