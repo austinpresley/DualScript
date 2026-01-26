@@ -12,6 +12,7 @@
 
 @import OSAKit;
 #import "MyStreamDeckPlugin.h"
+<<<<<<< Updated upstream
 
 #import "ESDSDKDefines.h"
 #import "ESDConnectionManager.h"
@@ -256,6 +257,117 @@ static NSString * CreateBase64EncodedString(NSString *inImagePath)
 - (void)applicationDidTerminate:(NSDictionary *)applicationInfo
 {
     // Nothing to do
+=======
+#import "ESDConnectionManager.h"
+#import <Foundation/Foundation.h>
+
+#pragma mark –– Plugin callbacks
+
+@implementation MyStreamDeckPlugin
+
+// Called when the Stream Deck app launches any monitored application.
+// (don’t need to do anything here for OSA Script.)
+- (void)applicationDidLaunch:(NSString *)application
+                 withContext:(NSString *)context
+                     payload:(NSDictionary *)payload
+                   forDevice:(NSString *)deviceID {
+  // No-op
+}
+
+// Called when the Stream Deck app terminates any monitored application.
+// (don’t need to do anything here.)
+- (void)applicationDidTerminate:(NSString *)application
+                    withContext:(NSString *)context
+                        payload:(NSDictionary *)payload
+                      forDevice:(NSString *)deviceID {
+  // No-op
+}
+
+// Called when a new Stream Deck device is connected.
+- (void)deviceDidConnect:(NSString *)deviceID
+          withDeviceInfo:(NSDictionary *)deviceInfo {
+  // No-op
+}
+
+// Called when a Stream Deck device is disconnected.
+- (void)deviceDidDisconnect:(NSString *)deviceID {
+  // No-op
+}
+
+// Called when the user first puts this action’s button on the screen
+// (e.g. switches to a profile that uses this action).
+- (void)willAppearForAction:(NSString *)action
+                withContext:(NSString *)context
+                withPayload:(NSDictionary *)payload
+                  forDevice:(NSString *)deviceID {
+  // No-op
+}
+
+// Called when the user removes this action’s button from the screen
+// (e.g. switches away from a profile that uses this action).
+- (void)willDisappearForAction:(NSString *)action
+                   withContext:(NSString *)context
+                   withPayload:(NSDictionary *)payload
+                     forDevice:(NSString *)deviceID {
+  // No-op
+}
+
+/// Runs the given AppleScript source string via NSAppleScript in a background
+/// thread. If source is empty, does nothing. If there’s an error, it logs to
+/// NSLog and shows an alert on the key.
+- (void)runOSAString:(NSString *)source context:(NSString *)context {
+  if (source.length == 0) {
+    return;
+  }
+
+  dispatch_async(
+      dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSDictionary *errorInfo = nil;
+        NSAppleScript *script = [[NSAppleScript alloc] initWithSource:source];
+        [script executeAndReturnError:&errorInfo];
+
+        if (errorInfo) {
+          NSLog(@"[OSA-Script] Execution error: %@", errorInfo);
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [self.connectionManager showAlertForContext:context];
+          });
+        }
+      });
+}
+
+/// Called the moment the user **presses down** on the key.
+/// Look up “scriptDown” in the saved settings; if empty, fall back to the old
+/// “script” key.
+- (void)keyDownForAction:(NSString *)action
+             withContext:(NSString *)context
+             withPayload:(NSDictionary *)payload
+               forDevice:(NSString *)deviceID {
+  NSDictionary *settings = payload[@"settings"] ?: @{};
+  NSString *source = settings[@"scriptDown"];
+  if (source.length == 0) {
+    // If they left the Key Down box blank, run the old single-“script” value
+    // instead
+    source = settings[@"script"];
+  }
+  [self runOSAString:source context:context];
+}
+
+/// Called the moment the user **releases** (lets go of) the key.
+/// Look up “scriptUp” in the saved settings; if empty, fall back to the old
+/// “script” key.
+- (void)keyUpForAction:(NSString *)action
+           withContext:(NSString *)context
+           withPayload:(NSDictionary *)payload
+             forDevice:(NSString *)deviceID {
+  NSDictionary *settings = payload[@"settings"] ?: @{};
+  NSString *source = settings[@"scriptUp"];
+  if (source.length == 0) {
+    // If they left the Key Up box blank, run the old single-“script” value
+    // instead
+    source = settings[@"script"];
+  }
+  [self runOSAString:source context:context];
+>>>>>>> Stashed changes
 }
 
 @end
