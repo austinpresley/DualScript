@@ -1,34 +1,73 @@
-# streamdeck-osascript
+# DualScript
 
 ![](screenshot.png)
 
 ## Description
 
-`Run OSA Script` is a plugin that allows you to run arbitrary OSA language scripts (AppleScript and JavaScript for automation). It's based on the plugin `streamdeck-applescript` but this one has been rewritten from the scratch to update it to the Stream Deck SDK v2.
+`DualScript` is a macOS Stream Deck plugin that lets one action run different scripts on key down and key up. It supports AppleScript and JavaScript for Automation (JXA), and it keeps legacy single-script buttons working by migrating their script into the key-down slot.
 
 ## Features
 
-- code written in Objective-C
-- macOS only
-- executes AppleScript scripts
-- executes JXA (JavaScript for automation) scripts
+- separate key-down and key-up scripts
+- AppleScript and JXA execution through OSAKit
+- property inspector with language selection, inline editors, and test buttons
+- one-command packaging into a `.streamDeckPlugin` installer
+- legacy migration from the original single-script action
 
 ## Installation
 
-In the Release folder, you can find the file `com.gabrielperales.osascript.streamDeckPlugin`. If you double-click this file on your machine, Stream Deck will install the plugin.
+Build or rebuild the installer with:
+
+```bash
+./scripts/package.sh
+```
+
+The generated installer is:
+
+```text
+Release/com.apresley.DualScript.streamDeckPlugin
+```
+
+Double-click that file to install it in Stream Deck.
+
+If you want the script to open the installer as soon as it finishes:
+
+```bash
+./scripts/package.sh --install
+```
 
 ## Source code
 
-The Sources folder contains the source code of the plugin.
+The Objective-C plugin code lives under `Sources/`, and the Stream Deck bundle assets live under `Sources/com.apresley.DualScript.sdPlugin/`.
 
+## Development
+
+Build and validate the package in one step:
+
+```bash
+./scripts/test.sh
+```
+
+Useful options:
+
+```bash
+./scripts/package.sh --debug
+./scripts/package.sh --release
+```
 
 ## Examples
 
-### Open VS Code
+### Key Down: Open VS Code
 
 ```JavaScript
 var code = Application('Visual Studio Code');
 code.activate();
+```
+
+### Key Up: Pause Music
+
+```AppleScript
+tell application "Music" to pause
 ```
 
 ## Resources to learn AppleScript and JXA

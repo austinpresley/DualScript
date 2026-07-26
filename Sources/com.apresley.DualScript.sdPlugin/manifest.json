@@ -1,0 +1,86 @@
+{
+  "$schema": "https://schemas.elgato.com/streamdeck/plugins/manifest.json",
+  "Actions": [
+    {
+      "Icon": "DualScriptIconIdle",
+      "Name": "DualScript",
+      "States": [
+        {
+          "Image": "DualScriptIconIdle",
+          "FontSize": "18",
+          "FontStyle": "Bold",
+          "TitleAlignment": "middle",
+          "TitleColor": "#ffffff"
+        },
+        {
+          "Image": "DualScriptIconRunning",
+          "FontSize": "18",
+          "FontStyle": "Bold",
+          "TitleAlignment": "middle",
+          "TitleColor": "#ffffff"
+        },
+        {
+          "Image": "DualScriptIconError",
+          "FontSize": "18",
+          "FontStyle": "Bold",
+          "TitleAlignment": "middle",
+          "TitleColor": "#ffffff"
+        }
+      ],
+      "Tooltip": "Run separate AppleScript / JXA scripts on key down and key up",
+      "UUID": "com.apresley.dualscript.action"
+    },
+    {
+      "Icon": "DualScriptIconIdle",
+      "Name": "DualScript",
+      "States": [
+        {
+          "Image": "DualScriptIconIdle",
+          "FontSize": "18",
+          "FontStyle": "Bold",
+          "TitleAlignment": "middle",
+          "TitleColor": "#ffffff"
+        },
+        {
+          "Image": "DualScriptIconRunning",
+          "FontSize": "18",
+          "FontStyle": "Bold",
+          "TitleAlignment": "middle",
+          "TitleColor": "#ffffff"
+        },
+        {
+          "Image": "DualScriptIconError",
+          "FontSize": "18",
+          "FontStyle": "Bold",
+          "TitleAlignment": "middle",
+          "TitleColor": "#ffffff"
+        }
+      ],
+      "Tooltip": "Run separate AppleScript / JXA scripts on key down and key up",
+      "UUID": "com.gabrielperales.osascript.action",
+      "VisibleInActionsList": false
+    }
+  ],
+  "SDKVersion": 2,
+  "Author": "A. Presley",
+  "Category": "DualScript",
+  "CategoryIcon": "DualScriptCategoryIcon",
+  "CodePath": "DualScript",
+  "Description": "Run one script on key down and another on key up",
+  "Icon": "DualScriptPluginIcon",
+  "Name": "DualScript",
+  "OS": [
+    {
+      "Platform": "mac",
+      "MinimumVersion": "11.0"
+    }
+  ],
+  "PropertyInspectorPath": "index.html",
+  "Software": {
+    "MinimumVersion": "4.1"
+  },
+  "SupportURL": "https://github.com/austinpresley/DualScript/issues",
+  "URL": "https://github.com/austinpresley/DualScript",
+  "UUID": "com.apresley.dualscript",
+  "Version": "2.2.0"
+}

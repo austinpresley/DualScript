@@ -53,9 +53,12 @@ extern NSString *_Nullable SRStreamNetworkServiceTypeFromURLRequest(NSURLRequest
 	switch (request.networkServiceType) {
 		case NSURLNetworkServiceTypeDefault:
 			break;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		case NSURLNetworkServiceTypeVoIP:
 			networkServiceType = NSStreamNetworkServiceTypeVoIP;
 			break;
+#pragma clang diagnostic pop
 		case NSURLNetworkServiceTypeVideo:
 			networkServiceType = NSStreamNetworkServiceTypeVideo;
 			break;

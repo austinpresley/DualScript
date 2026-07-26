@@ -385,6 +385,13 @@
 	 			[self.delegate applicationDidTerminate:payload];
 	 		}
 	 	}
+	 	else if([event isEqualToString:@kESDSDKEventSendToPlugin])
+	 	{
+			if([self.delegate respondsToSelector:@selector(sendToPluginForAction:withContext:withPayload:forDevice:)])
+			{
+				[self.delegate sendToPluginForAction:action withContext:context withPayload:payload ?: @{} forDevice:deviceID];
+			}
+	 	}
 	}
 	@catch(...)
 	{

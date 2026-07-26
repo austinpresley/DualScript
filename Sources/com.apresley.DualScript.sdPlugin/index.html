@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>DualScript</title>
+	<link rel="stylesheet" href="css/dualscript.css">
+</head>
+<body>
+	<main class="inspector">
+		<header class="topbar panel">
+			<div class="brand">
+				<p class="eyebrow">Dual-Phase Script</p>
+				<h1>DualScript</h1>
+			</div>
+			<label class="field compact-field topbar-field" for="language">
+				<span class="field-label">Language</span>
+				<select id="language">
+					<option value="AppleScript">AppleScript</option>
+					<option value="JavaScript">JavaScript for Automation</option>
+				</select>
+			</label>
+		</header>
+
+		<section class="control-strip panel">
+			<div class="phase-tabs" role="tablist" aria-label="Script phase">
+				<button id="phaseTabDown" class="phase-tab is-active" type="button" data-phase-tab="down" aria-selected="true">Key Down</button>
+				<button id="phaseTabUp" class="phase-tab" type="button" data-phase-tab="up" aria-selected="false">Key Up</button>
+			</div>
+			<p class="strip-note">Validate compiles the active phase without running it. Legacy single-script actions migrate into <strong>Key Down</strong>.</p>
+			<div id="status" class="status status-neutral">Waiting for Stream Deck…</div>
+		</section>
+
+		<section class="phase phase-down panel" data-phase-panel="down">
+			<div class="phase-header">
+				<div class="phase-copy">
+					<span class="phase-badge">Press Phase</span>
+					<div>
+						<h2>Key Down</h2>
+						<p>Runs the moment the Stream Deck key is pressed.</p>
+					</div>
+				</div>
+				<div class="phase-actions">
+					<button id="validateDown" class="ghost-button ghost-button-subtle" type="button">Validate</button>
+					<button id="testDown" class="ghost-button" type="button">Run Down</button>
+				</div>
+			</div>
+
+			<div class="editor-frame">
+				<div class="editor-gutter">
+					<div id="gutterDown" class="editor-gutter-track"></div>
+				</div>
+				<div class="editor-surface">
+					<pre id="highlightDown" class="editor-highlight" aria-hidden="true"></pre>
+					<textarea id="scriptDown" class="editor-input" spellcheck="false" wrap="off"></textarea>
+					<div id="placeholderDown" class="editor-placeholder" aria-hidden="true"></div>
+				</div>
+			</div>
+			<div class="editor-footer">
+				<div id="feedbackDown" class="feedback feedback-neutral">Waiting for input.</div>
+				<div id="metricsDown" class="metrics">1 line</div>
+			</div>
+		</section>
+
+		<section class="phase phase-up panel is-hidden" data-phase-panel="up">
+			<div class="phase-header">
+				<div class="phase-copy">
+					<span class="phase-badge">Release Phase</span>
+					<div>
+						<h2>Key Up</h2>
+						<p>Runs after the key is released.</p>
+					</div>
+				</div>
+				<div class="phase-actions">
+					<button id="validateUp" class="ghost-button ghost-button-subtle" type="button">Validate</button>
+					<button id="testUp" class="ghost-button" type="button">Run Up</button>
+				</div>
+			</div>
+			<div class="editor-frame">
+				<div class="editor-gutter">
+					<div id="gutterUp" class="editor-gutter-track"></div>
+				</div>
+				<div class="editor-surface">
+					<pre id="highlightUp" class="editor-highlight" aria-hidden="true"></pre>
+					<textarea id="scriptUp" class="editor-input" spellcheck="false" wrap="off"></textarea>
+					<div id="placeholderUp" class="editor-placeholder" aria-hidden="true"></div>
+				</div>
+			</div>
+			<div class="editor-footer">
+				<div id="feedbackUp" class="feedback feedback-neutral">Waiting for input.</div>
+				<div id="metricsUp" class="metrics">1 line</div>
+			</div>
+		</section>
+	</main>
+	<script src="inspector.js"></script>
+</body>
+</html>

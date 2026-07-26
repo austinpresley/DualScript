@@ -1,0 +1,13 @@
+{
+  "Description": "Run one script on key down and another on key up",
+  "Category": "DualScript",
+  "Name": "DualScript",
+  "com.apresley.dualscript.action": {
+    "Name": "DualScript",
+    "Tooltip": "Run separate AppleScript / JXA scripts on key down and key up with live key states"
+  },
+  "com.gabrielperales.osascript.action": {
+    "Name": "DualScript",
+    "Tooltip": "Run separate AppleScript / JXA scripts on key down and key up with live key states"
+  }
+}
